@@ -21,8 +21,8 @@ def priceDescription_total(partList, gt1_price, gt2_price, gt3_price):
 
 gt1_count = 0
 gt2_count = 0
-
 gt3_count = 0
+
 gt1_price = 0
 gt2_price = 0 
 gt3_price = 0
