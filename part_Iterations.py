@@ -1,4 +1,4 @@
-
+#Price Totals by Category (Desc)
 def partDescription_count(partList, gt1_count, gt2_count, gt3_count):
     for desc in partList.keys():
         if "GT1" in desc:
@@ -27,16 +27,31 @@ gt1_price = 0
 gt2_price = 0 
 gt3_price = 0
 
-rascoParts = {'RASCO,#123, GT1': 150.20, 'RASCO,#145, GT3' : 155.27, 'RASCO,#124, GT2' : 125.78, 'RASCO,#125, GT1': 150.20, 'RASCO,#1425, GT3' : 155.27, 'RASCO,#24, GT2' : 125.78, 'RASCO,#126, GT1': 150.20, 'RASCO,#1445, GT3' : 155.27, 'RASCO,#14, GT2' : 125.78, 'RASCO,#127, GT1': 150.20, 'RASCO,#1465, GT3' : 155.27, 'RASCO,#12, GT2' : 125.78}
+rascoParts = {'RASCO,#123, GT2': 150.20, 
+              'RASCO,#145, GT3' : 155.27, 
+              'RASCO,#124, GT2' : 125.78, 
+              'RASCO,#125, GT1': 150.20, 
+              'RASCO,#1425, GT3' : 155.27, 
+              'RASCO,#24, GT2' : 125.78, 
+              'RASCO,#126, GT1': 150.20, 
+              'RASCO,#1445, GT3' : 155.27, 
+              'RASCO,#14, GT2' : 125.78, 
+              'RASCO,#127, GT1': 150.20, 
+              'RASCO,#1465, GT3' : 155.27, 
+              'RASCO,#12, GT2' : 125.78,
+              'RASCO,#123, GT2': 150.20, 
+              'RASCO,#145, GT3' : 155.27, 
+              'RASCO,#124, GT2' : 125.78, 
+              'RASCO,#125, GT1': 150.20}
 
 gt1_count, gt2_count, gt3_count = partDescription_count(rascoParts, gt1_count, gt2_count, gt3_count)
 gt1_price, gt2_price, gt3_price = priceDescription_total(rascoParts, gt1_price, gt2_price, gt3_price)
 
-print(f"GT1 Total Count {gt1_count} : ${gt1_price}")
-print(f"GT2 Total Count {gt2_count} : ${gt2_price}")
-print(f"GT3 Total Count {gt3_count} : ${gt3_price}")
+print(f"GT1 Total Count {gt1_count} : ${round(gt1_price, 2)}")
+print(f"GT2 Total Count {gt2_count} : ${round(gt2_price, 2)}")
+print(f"GT3 Total Count {gt3_count} : ${round(gt3_price, 2)}")
 
-
+#Inventory alert by Part Number
 def inventory_count(part_inventory):
     for dc, inventory in part_inventory.items():
         if inventory == 0:
