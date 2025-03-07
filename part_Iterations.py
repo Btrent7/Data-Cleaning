@@ -69,9 +69,9 @@ pn_6990000001 = {'NY': 1500, 'BN': 1250, 'EG': 190, 'DA': 980, 'PO': 654}
 pn_6990000002 = {'NY': 150, 'BN': 950, 'EG': 2190, 'DA': 80, 'PO': 773}
 pn_6990000003 = {'NY': 500, 'BN': 250, 'EG': 590, 'DA': 0, 'PO': 954}
 
-inventory_count(pn_6990000001, 'RASCO,#123,GT1 6990000001')
-inventory_count(pn_6990000002, 'RASCO,#234,GT2 6990000002')
-inventory_count(pn_6990000003, 'RASCO,#345,GT3 6990000003')
+pn_inventory_count(pn_6990000001, 'RASCO,#123,GT1 6990000001')
+pn_inventory_count(pn_6990000002, 'RASCO,#234,GT2 6990000002')
+pn_inventory_count(pn_6990000003, 'RASCO,#345,GT3 6990000003')
 
 # -- DIM Invetory Report --
 def dim_inventory_count(dim_inventory, dim):
@@ -91,6 +91,6 @@ dim_ny = {'6990000001': 1500, '6990002378': 1250, '6990000201': 190, '6990000076
 dim_da = {'6990000001': 120, '6990002378': 220, '6990000201': 1190, '6990000076': 2980, '6990002301': 54}
 dim_hn = {'6990000001': 1320, '6990002378': 20, '6990000201': 122, '6990000076': 80, '6990002301': 754}
 
-inventory_count(dim_ny, 'NY')
-inventory_count(dim_da, 'DA')
-inventory_count(dim_hn, 'HN')
+dim_inventory_count(dim_ny, 'NY')
+dim_inventory_count(dim_da, 'DA')
+dim_inventory_count(dim_hn, 'HN')
