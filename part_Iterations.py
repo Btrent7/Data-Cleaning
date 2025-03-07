@@ -52,7 +52,7 @@ print(f"GT2 Total Count {gt2_count} : ${round(gt2_price, 2)}")
 print(f"GT3 Total Count {gt3_count} : ${round(gt3_price, 2)} \n")
 
 # -- PN Inventory Report --
-def inventory_count(part_inventory, pn):
+def pn_inventory_count(part_inventory, pn):
     print(f"\nInventory Report: {pn}")
     for dc, inventory in part_inventory.items():
         if inventory == 0:
@@ -74,7 +74,7 @@ inventory_count(pn_6990000002, 'RASCO,#234,GT2 6990000002')
 inventory_count(pn_6990000003, 'RASCO,#345,GT3 6990000003')
 
 # -- DIM Invetory Report --
-def inventory_count(dim_inventory, dim):
+def dim_inventory_count(dim_inventory, dim):
     print(f"\nInventory Report: {dim}")
     for pn, inventory in dim_inventory.items():
         if inventory == 0:
