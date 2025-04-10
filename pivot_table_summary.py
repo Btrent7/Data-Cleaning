@@ -1,30 +1,29 @@
 import pandas as pd
 import numpy as np
 
-pivot_table = r"C:\Users\btrent\\Data Analysis.xlsx"
-unpivot_table = r"C:\Users\btrent\\Data Analysis2.xlsx"
-test_table = r"C:\Users\btrent\\Data Analysis3.xlsx"
+pivot_table = r"C:\Users\btrent\Data Analysis1.xlsx"
+powerBi_table = r"C:\Users\btrent\Data Analysis2.xlsx"
+final_table = r"C:\Users\btrent\Data Analysis3.xlsx"
 
 df = pd.read_excel(pivot_table, sheet_name = "Sheet1")
 
 df["Date"] = pd.to_datetime(df["Date"]).dt.date
 
-pivot_melted = df.melt(id_vars=["Date", "Site"], var_name= "Location", value_name="Value")
+pivot_df = df.melt(id_vars=["Date", "Site"], var_name= "Location", value_name="Value")
 
-pivot_unpivoted = pivot_melted.pivot_table(index=["Date", "Location"], columns="Site", values="Value").reset_index()
+unpivoted_df = pivot_df.pivot_table(index=["Date", "Location"], columns="Site", values="Value").reset_index()
 
-pivot_unpivoted.columns.name = None
-pivot_unpivoted.rename(columns={"Location": "Site"}, inplace=True)
+unpivoted_df.columns.name = None
+unpivoted_df.rename(columns={"Location": "Site"}, inplace=True)
 
-print(pivot_unpivoted)
+print(unpivoted_df)
 
-# pivot_unpivoted.to_excel(unpivot_table, index=False)
+# pivot_unpivoted.to_excel(powerBi_table, index=False)
 print("Complete!")
 
-overall_table = pivot_unpivoted.groupby("Site")[["Orders", "Stocks", "Drops", "W/C", "Quotes", "Closed"]].agg([min, max, sum])
-overall_table.columns = ["_".join(col).strip() for col in overall_table.columns.values]
+overall_table = unpivoted_df.groupby("Site")[["Orders", "Stocks", "Drops", "W/C", "Quotes", "Closed"]].agg([min, max, sum])
 
-print(test_table)
+overall_table.columns = ["_".join(col).strip() for col in overall_table.columns.values]
 
 overall_table = overall_table.reset_index()
 
@@ -48,7 +47,7 @@ overall_table = overall_table.drop(["Orders_max", "Orders_min", "Stocks_min", "S
                               "W/C_min", "W/C_max", "Quotes_min", "Quotes_max", "Closed_min", "Closed_max"], axis=1)
 print(overall_table)
 
-# overall_table.to_excel(test_table, index=False)
+# overall_table.to_excel(final_table, index=False)
 
 Closed_orders = overall_table.groupby("Closed_bins")["Closed_sum"].agg([sum, max])
 Closed_Avg =  overall_table.groupby("Closed_bins")["Closed %"].mean()
@@ -76,7 +75,7 @@ print(Summary_Closed)
 print()
 print(Summary_Range)
 
-with pd.ExcelWriter (test_table) as write:
+with pd.ExcelWriter (final_table) as write:
     overall_table.to_excel(write, sheet_name="Overall_summary", index=False)
     Summary_Closed.to_excel(write, sheet_name="Closed_%_Summmary", index=False)
     Summary_Range.to_excel(write, sheet_name="Order_Range_Summary", index=False)
