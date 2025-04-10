@@ -14,10 +14,13 @@ unpivoted_df = pivot_df.pivot_table(index=["Date", "Location"], columns="Type", 
 unpivoted_df = unpivoted_df.reset_index()
 unpivoted_df = unpivoted_df.rename(columns = {"Location" : "Site"})
 
-unpivoted_df.to_excel(powerBi_table, index=False)
-print("PowerBi Update Complete!")
+# print(pivot_df)
+# print(unpivoted_df)
 
-overall_table = unpivoted_df.groupby("Site")[["Orders", "Stocks", "Drops", "W/C", "Quotes", "Closed"]].agg([min, max, sum])
+unpivoted_df.to_excel(powerBi_table, index=False)
+print("PowerBi data table updated!")
+
+overall_table = unpivoted_df.groupby("Site")[["Orders", "Stocks", "Drops", "W/C", "Quotes", "Closed"]].agg(['min', 'max', 'sum'])
 
 overall_table.columns = ["_".join(col).strip() for col in overall_table.columns.values]
 
@@ -40,14 +43,12 @@ overall_table["Range_bins"] = pd.cut(overall_table["Range %"], bins=Range_bins, 
 overall_table = overall_table.drop(["Orders_max", "Orders_min", "Stocks_min", "Stocks_max", "Drops_min", "Drops_max", 
                               "W/C_min", "W/C_max", "Quotes_min", "Quotes_max", "Closed_min", "Closed_max"], axis=1)
 
-print(overall_table)
-
-Closed_orders = overall_table.groupby("Closed_bins")["Closed_sum"].agg([sum, max])
-Closed_Avg =  overall_table.groupby("Closed_bins")["Closed %"].mean()
-Closed_Site = overall_table.groupby("Closed_bins")["Site"].count()
-Range_orders = overall_table.groupby("Range_bins")["Orders_sum"].agg([min, max])
-Range_Avg = overall_table.groupby("Range_bins")["Range %"].mean()
-Range_Site = overall_table.groupby("Range_bins")["Site"].count()
+Closed_orders = overall_table.groupby("Closed_bins", observed=False)["Closed_sum"].agg(['sum', 'max'])
+Closed_Avg =  overall_table.groupby("Closed_bins", observed=False)["Closed %"].mean()
+Closed_Site = overall_table.groupby("Closed_bins", observed=False)["Site"].count()
+Range_orders = overall_table.groupby("Range_bins", observed=False)["Orders_sum"].agg(['min', 'max'])
+Range_Avg = overall_table.groupby("Range_bins", observed=False)["Range %"].mean()
+Range_Site = overall_table.groupby("Range_bins", observed=False)["Site"].count()
 
 Summary_Closed = pd.concat([Closed_orders, Closed_Avg, Closed_Site], axis=1) 
 Summary_Range = pd.concat([Range_orders, Range_Avg, Range_Site], axis=1)
@@ -56,6 +57,8 @@ Summary_Closed = Summary_Closed.reset_index()
 Summary_Range = Summary_Range.reset_index()
 
 print(f""" 
+{overall_table}
+
 {Summary_Closed}
 
 {Summary_Range}""")
