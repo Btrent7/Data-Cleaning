@@ -18,7 +18,7 @@ unpivoted_df.rename(columns={"Location": "Site"}, inplace=True)
 
 print(unpivoted_df)
 
-# pivot_unpivoted.to_excel(powerBi_table, index=False)
+unpivoted_df.to_excel(powerBi_table, index=False)
 print("Complete!")
 
 overall_table = unpivoted_df.groupby("Site")[["Orders", "Stocks", "Drops", "W/C", "Quotes", "Closed"]].agg([min, max, sum])
