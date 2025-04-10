@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 
-pivot_table = r"C:\Users\btrent\Data Analysis1.xlsx"
-powerBi_table = r"C:\Users\btrent\Data Analysis2.xlsx"
-final_table = r"C:\Users\btrent\Data Analysis3.xlsx"
+pivot_table = r"C:\Users\btrent\analysis1.xlsx"
+powerBi_table = r"C:\Users\btrent\analysis2.xlsx"
+analysis_table = r"C:\Users\btrent\analysis3.xlsx"
 
 df = pd.read_excel(pivot_table, sheet_name = "Sheet1")
 
@@ -18,7 +18,7 @@ unpivoted_df.rename(columns={"Location": "Site"}, inplace=True)
 
 print(unpivoted_df)
 
-unpivoted_df.to_excel(powerBi_table, index=False)
+# unpivoted_df.to_excel(powerBi_table, index=False)
 print("Complete!")
 
 overall_table = unpivoted_df.groupby("Site")[["Orders", "Stocks", "Drops", "W/C", "Quotes", "Closed"]].agg([min, max, sum])
@@ -47,7 +47,7 @@ overall_table = overall_table.drop(["Orders_max", "Orders_min", "Stocks_min", "S
                               "W/C_min", "W/C_max", "Quotes_min", "Quotes_max", "Closed_min", "Closed_max"], axis=1)
 print(overall_table)
 
-# overall_table.to_excel(final_table, index=False)
+# overall_table.to_excel(analysis_table, index=False)
 
 Closed_orders = overall_table.groupby("Closed_bins")["Closed_sum"].agg([sum, max])
 Closed_Avg =  overall_table.groupby("Closed_bins")["Closed %"].mean()
@@ -75,7 +75,7 @@ print(Summary_Closed)
 print()
 print(Summary_Range)
 
-with pd.ExcelWriter (final_table) as write:
+with pd.ExcelWriter (analysis_table) as write:
     overall_table.to_excel(write, sheet_name="Overall_summary", index=False)
     Summary_Closed.to_excel(write, sheet_name="Closed_%_Summmary", index=False)
     Summary_Range.to_excel(write, sheet_name="Order_Range_Summary", index=False)
